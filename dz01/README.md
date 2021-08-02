@@ -1,6 +1,6 @@
 ## Лабораторная работа. Базовая настройка коммутатора 
 # Топология
-https://github.com/pogodin2004/otusNetwork/blob/main/dz01/topology.png
+[logo]: https://github.com/pogodin2004/otusNetwork/blob/main/dz01/topology.png
 # Таблица адресации
 
 | Устройство    | Интерфейс          | IP-адрес / префикс |
