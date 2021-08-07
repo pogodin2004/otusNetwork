@@ -188,9 +188,11 @@ startup-config is not present
 Switch#
 ```
    Почему появляется это сообщение?
+
    ```Заводская конфигурация```
 
    d. Изучите характеристики SVI для VLAN 1.
+
 ```Switch#show ip interface vlan 1
 Vlan1 is administratively down, line protocol is down
   Internet protocol processing disabled
@@ -220,21 +222,23 @@ Vlan1 is administratively down, line protocol is down
      0 output errors, 23 interface resets
      0 output buffer failures, 0 output buffers swapped out
 ```
+
    Назначен ли IP-адрес сети VLAN 1?
+
    ```нет```
 
    Какой MAC-адрес имеет SVI? Возможны различные варианты ответов.
+
 ```00d0.bc1e.46dc```
 
    Данный интерфейс включен?
+
 ```Vlan1 is administratively down, line protocol is down```
 
    e. Изучите IP-свойства интерфейса SVI сети VLAN 1.
 
    Какие выходные данные вы видите?
 
-f.	Подсоедините кабель Ethernet компьютера PC-A к порту 6 на коммутаторе и изучите IP-свойства интерфейса SVI сети VLAN 1. Дождитесь согласования параметров скорости и дуплекса между коммутатором и ПК.
-Примечание. При использовании Netlab включите интерфейс F0/6 на коммутаторе S1.
 ```
 Switch# show ip int br
 Interface              IP-Address      OK? Method Status                Protocol 
@@ -267,7 +271,28 @@ GigabitEthernet0/2     unassigned      YES manual down                  down
 Vlan1                  unassigned      YES manual administratively down down
 ```
 
+   f.Подсоедините кабель Ethernet компьютера PC-A к порту 6 на коммутаторе и изучите IP-свойства интерфейса SVI сети VLAN 1. Дождитесь согласования параметров скорости и дуплекса между коммутатором и ПК.
 
+![](https://github.com/pogodin2004/otusNetwork/blob/main/dz01/ethernet_connection.png)
+
+
+```Switch# 
+%LINK-5-CHANGED: Interface FastEthernet0/1, changed state to up
+
+%LINEPROTO-5-UPDOWN: Line protocol on Interface FastEthernet0/1, changed state to up
+
+%LINK-3-UPDOWN: Interface FastEthernet0/1, changed state to down
+
+%LINEPROTO-5-UPDOWN: Line protocol on Interface FastEthernet0/1, changed state to down
+
+%LINK-5-CHANGED: Interface FastEthernet0/6, changed state to up
+
+%LINEPROTO-5-UPDOWN: Line protocol on Interface FastEthernet0/6, changed state to up
+
+Switch#
+```
+
+**Примечание. При использовании Netlab включите интерфейс F0/6 на коммутаторе S1.**
 
 
 
