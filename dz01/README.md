@@ -391,18 +391,147 @@ Switch Ports Model              SW Version            SW Image
 Configuration register is 0xF
 ```
 
-   **Под управлением какой версии ОС Cisco IOS работает коммутатор?
+   Под управлением какой версии ОС Cisco IOS работает коммутатор?
 
 ```Cisco IOS Software, C2960 Software (C2960-LANBASEK9-M), Version 15.0(2)SE4, RELEASE SOFTWARE (fc1)```
 
-   **Как называется файл образа системы?
+   Как называется файл образа системы?
 
 ```System image file is "flash:c2960-lanbasek9-mz.150-2.SE4.bin"```
 
-   **Какой базовый MAC-адрес назначен коммутатору?
+   Какой базовый MAC-адрес назначен коммутатору?
 
 ```Base ethernet MAC Address       : 00:17:59:A7:51:80```
 
+
+   h. Изучите свойства по умолчанию интерфейса FastEthernet, который используется компьютером PC-A.
+
+   *Switch# show interface f0/6 *
+
+```Switch#show int fa 0/6
+FastEthernet0/6 is up, line protocol is up (connected)
+  Hardware is Lance, address is 0060.4780.e506 (bia 0060.4780.e506)
+ BW 100000 Kbit, DLY 1000 usec,
+     reliability 255/255, txload 1/255, rxload 1/255
+  Encapsulation ARPA, loopback not set
+  Keepalive set (10 sec)
+  Full-duplex, 100Mb/s
+  input flow-control is off, output flow-control is off
+  ARP type: ARPA, ARP Timeout 04:00:00
+  Last input 00:00:08, output 00:00:05, output hang never
+  Last clearing of "show interface" counters never
+  Input queue: 0/75/0/0 (size/max/drops/flushes); Total output drops: 0
+  Queueing strategy: fifo
+  Output queue :0/40 (size/max)
+  5 minute input rate 0 bits/sec, 0 packets/sec
+  5 minute output rate 0 bits/sec, 0 packets/sec
+     956 packets input, 193351 bytes, 0 no buffer
+     Received 956 broadcasts, 0 runts, 0 giants, 0 throttles
+     0 input errors, 0 CRC, 0 frame, 0 overrun, 0 ignored, 0 abort
+     0 watchdog, 0 multicast, 0 pause input
+     0 input packets with dribble condition detected
+     2357 packets output, 263570 bytes, 0 underruns
+     0 output errors, 0 collisions, 10 interface resets
+     0 babbles, 0 late collision, 0 deferred
+     0 lost carrier, 0 no carrier
+     0 output buffer failures, 0 output buffers swapped out
+```
+
+   Интерфейс включен или выключен?
+
+```FastEthernet0/6 is up, line protocol is up (connected)```
+
+   Что нужно сделать, чтобы включить интерфейс?
+
+```Для включения интерфейса нужно ввести *no shutdown*```
+
+   Какой MAC-адрес у интерфейса?
+
+```Hardware is Lance, address is 0060.4780.e506 (bia 0060.4780.e506)```
+
+   Какие настройки скорости и дуплекса заданы в интерфейсе?
+
+```Full-duplex, 100Mb/s```
+
+   i. Изучите параметры сети VLAN по умолчанию на коммутаторе.
+
+```Switch#show vlan 
+
+VLAN Name                             Status    Ports
+---- -------------------------------- --------- -------------------------------
+1    default                          active    Fa0/1, Fa0/2, Fa0/3, Fa0/4
+                                                Fa0/5, Fa0/6, Fa0/7, Fa0/8
+                                                Fa0/9, Fa0/10, Fa0/11, Fa0/12
+                                                Fa0/13, Fa0/14, Fa0/15, Fa0/16
+                                                Fa0/17, Fa0/18, Fa0/19, Fa0/20
+                                                Fa0/21, Fa0/22, Fa0/23, Fa0/24
+                                                Gig0/1, Gig0/2
+1002 fddi-default                     active    
+1003 token-ring-default               active    
+1004 fddinet-default                  active    
+1005 trnet-default                    active    
+
+VLAN Type  SAID       MTU   Parent RingNo BridgeNo Stp  BrdgMode Trans1 Trans2
+---- ----- ---------- ----- ------ ------ -------- ---- -------- ------ ------
+1    enet  100001     1500  -      -      -        -    -        0      0
+1002 fddi  101002     1500  -      -      -        -    -        0      0   
+1003 tr    101003     1500  -      -      -        -    -        0      0   
+1004 fdnet 101004     1500  -      -      -        ieee -        0      0   
+1005 trnet 101005     1500  -      -      -        ibm  -        0      0   
+
+VLAN Type  SAID       MTU   Parent RingNo BridgeNo Stp  BrdgMode Trans1 Trans2
+---- ----- ---------- ----- ------ ------ -------- ---- -------- ------ ------
+
+Remote SPAN VLANs
+------------------------------------------------------------------------------
+
+Primary Secondary Type              Ports
+------- --------- ----------------- ------------------------------------------
+Switch#
+```
+
+   Какое имя присвоено сети VLAN 1 по умолчанию? 
+
+```default```
+
+   Какие порты расположены в сети VLAN 1?
+```Fa0/1, Fa0/2, Fa0/3, Fa0/4
+   Fa0/5, Fa0/6, Fa0/7, Fa0/8
+   Fa0/9, Fa0/10, Fa0/11, Fa0/12
+   Fa0/13, Fa0/14, Fa0/15, Fa0/16
+   Fa0/17, Fa0/18, Fa0/19, Fa0/20
+   Fa0/21, Fa0/22, Fa0/23, Fa0/24
+   Gig0/1, Gig0/2
+```
+
+   Активна ли сеть VLAN 1?
+
+```да```
+
+   К какому типу сетей VLAN принадлежит VLAN по умолчанию?
+
+```enet```
+
+   j. Изучите флеш-память.
+
+   Выполните одну из следующих команд, чтобы изучить содержимое флеш-каталога.
+   
+   *Switch# show flash*
+
+   *Switch# dir flash:*
+
+```Switch#show flash
+Directory of flash:/
+
+    1  -rw-     4670455          <no date>  2960-lanbasek9-mz.150-2.SE4.bin
+
+64016384 bytes total (59345929 bytes free)
+Switch#
+```
+ 
+   В конце имени файла указано расширение, например .bin. Каталоги не имеют расширения файла. Какое имя присвоено образу Cisco IOS?
+
+```2960-lanbasek9-mz.150-2.SE4.bin```
 
 
 
