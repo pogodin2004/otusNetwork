@@ -708,7 +708,9 @@ line vty 5 15
 end
 ```
    b. Проверьте параметры VLAN 1.
+
    *S1# show interface vlan 1*
+
 ```
 S1#show int vl 1
 Vlan1 is up, line protocol is up
@@ -734,12 +736,15 @@ Vlan1 is up, line protocol is up
      0 output buffer failures, 0 output buffers swapped out
 ```
    Какова полоса пропускания этого интерфейса?
+
    ```BW 100000 Kbit```
 
    В каком состоянии находится VLAN 1?
+
    ```Vlan1 is up```
 
    В каком состоянии находится канальный протокол?
+
    ```line protocol is up```
 
 
@@ -749,7 +754,7 @@ Vlan1 is up, line protocol is up
 
    *C:\> ping 192.168.1.10*
 
-![](https://github.com/pogodin2004/otusNetwork/blob/main/dz01/selfping.png)
+![](https://github.com/pogodin2004/otusNetwork/blob/main/dz01/hostping.png)
 
    b. Из командной строки компьютера PC-A отправьте эхо-запрос на административный адрес интерфейса SVI коммутатора S1.
    *C:\> ping 192.168.1.2*
@@ -787,6 +792,7 @@ Vlan1 is up, line protocol is up
 ```Чтобы иметь возможность подключиться к коммутатору, используя telnet```
 
    2. Что нужно сделать, чтобы пароли не отправлялись в незашифрованном виде?
+
 ```необходимо шифоровать пароль (password-encryption)```
 
 
