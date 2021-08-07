@@ -542,10 +542,15 @@ Switch#
    a. В режиме глобальной конфигурации скопируйте следующие базовые параметры конфигурации и вставьте их в файл на коммутаторе S1. 
 
 *no ip domain-lookup*
+
 *hostname S1*
+
 *service password-encryption*
+
 *enable secret class*
+
 *banner motd #*
+
 *Unauthorized access is strictly prohibited. #*
 
 ![](https://github.com/pogodin2004/otusNetwork/blob/main/dz01/base_config.png)
@@ -555,4 +560,20 @@ Switch#
    Прежде чем вы сможете управлять коммутатором S1 удаленно с компьютера PC-A, коммутатору нужно назначить IP-адрес. Согласно конфигурации по умолчанию коммутатором можно управлять через VLAN 1. Однако в базовой конфигурации коммутатора не рекомендуется назначать VLAN 1 в качестве административной VLAN.
 
 ![](https://github.com/pogodin2004/otusNetwork/blob/main/dz01/base_config.png)
+
+   c. Доступ через порт консоли также следует ограничить  с помощью пароля. Используйте cisco в качестве пароля для входа в консоль в этом задании. Конфигурация по умолчанию разрешает все консольные подключения без пароля. Чтобы консольные сообщения не прерывали выполнение команд, используйте параметр **logging synchronous**.
+
+   *S1(config)# line con 0*
+
+   *S1(config-line)# logging synchronous*
+
+![](https://github.com/pogodin2004/otusNetwork/blob/main/dz01/console_conf.png)
+
+   d.Настройте каналы виртуального соединения для удаленного управления (vty), чтобы коммутатор разрешил доступ через Telnet. Если не настроить пароль VTY, будет невозможно подключиться к коммутатору по протоколу Telnet.
+
+![](https://github.com/pogodin2004/otusNetwork/blob/main/dz01/vty_conf.png)
+
+   Для чего нужна команда login?
+
+```активация пароля```
    
