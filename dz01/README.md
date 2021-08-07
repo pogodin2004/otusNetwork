@@ -271,7 +271,7 @@ GigabitEthernet0/2     unassigned      YES manual down                  down
 Vlan1                  unassigned      YES manual administratively down down
 ```
 
-   f.Подсоедините кабель Ethernet компьютера PC-A к порту 6 на коммутаторе и изучите IP-свойства интерфейса SVI сети VLAN 1. Дождитесь согласования параметров скорости и дуплекса между коммутатором и ПК.
+   f. Подсоедините кабель Ethernet компьютера PC-A к порту 6 на коммутаторе и изучите IP-свойства интерфейса SVI сети VLAN 1. Дождитесь согласования параметров скорости и дуплекса между коммутатором и ПК.
 
 ![](https://github.com/pogodin2004/otusNetwork/blob/main/dz01/ethernet_connection.png)
 
@@ -293,6 +293,115 @@ Switch#
 ```
 
 **Примечание. При использовании Netlab включите интерфейс F0/6 на коммутаторе S1.**
+
+   Какие выходные данные вы видите?
+
+```Switch# show ip int br
+Interface              IP-Address      OK? Method Status                Protocol 
+FastEthernet0/1        unassigned      YES manual down                  down 
+FastEthernet0/2        unassigned      YES manual down                  down 
+FastEthernet0/3        unassigned      YES manual down                  down 
+FastEthernet0/4        unassigned      YES manual down                  down 
+FastEthernet0/5        unassigned      YES manual down                  down 
+FastEthernet0/6        unassigned      YES manual up                    up 
+FastEthernet0/7        unassigned      YES manual down                  down 
+FastEthernet0/8        unassigned      YES manual down                  down 
+FastEthernet0/9        unassigned      YES manual down                  down 
+FastEthernet0/10       unassigned      YES manual down                  down 
+FastEthernet0/11       unassigned      YES manual down                  down 
+FastEthernet0/12       unassigned      YES manual down                  down 
+FastEthernet0/13       unassigned      YES manual down                  down 
+FastEthernet0/14       unassigned      YES manual down                  down 
+FastEthernet0/15       unassigned      YES manual down                  down 
+FastEthernet0/16       unassigned      YES manual down                  down 
+FastEthernet0/17       unassigned      YES manual down                  down 
+FastEthernet0/18       unassigned      YES manual down                  down 
+FastEthernet0/19       unassigned      YES manual down                  down 
+FastEthernet0/20       unassigned      YES manual down                  down 
+FastEthernet0/21       unassigned      YES manual down                  down 
+FastEthernet0/22       unassigned      YES manual down                  down 
+FastEthernet0/23       unassigned      YES manual down                  down 
+FastEthernet0/24       unassigned      YES manual down                  down 
+GigabitEthernet0/1     unassigned      YES manual down                  down 
+GigabitEthernet0/2     unassigned      YES manual down                  down 
+Vlan1                  unassigned      YES manual administratively down down
+```
+
+   g. Изучите сведения о версии ОС Cisco IOS на коммутаторе.
+```
+Switch#show version 
+Cisco IOS Software, C2960 Software (C2960-LANBASEK9-M), Version 15.0(2)SE4, RELEASE SOFTWARE (fc1)
+Technical Support: http://www.cisco.com/techsupport
+Copyright (c) 1986-2013 by Cisco Systems, Inc.
+Compiled Wed 26-Jun-13 02:49 by mnguyen
+
+ROM: Bootstrap program is C2960 boot loader
+BOOTLDR: C2960 Boot Loader (C2960-HBOOT-M) Version 12.2(25r)FX, RELEASE SOFTWARE (fc4)
+
+Switch uptime is 39 minutes
+System returned to ROM by power-on
+System image file is "flash:c2960-lanbasek9-mz.150-2.SE4.bin"
+
+
+This product contains cryptographic features and is subject to United
+States and local country laws governing import, export, transfer and
+use. Delivery of Cisco cryptographic products does not imply
+third-party authority to import, export, distribute or use encryption.
+Importers, exporters, distributors and users are responsible for
+compliance with U.S. and local country laws. By using this product you
+agree to comply with applicable laws and regulations. If you are unable
+to comply with U.S. and local laws, return this product immediately.
+
+A summary of U.S. laws governing Cisco cryptographic products may be found at:
+http://www.cisco.com/wwl/export/crypto/tool/stqrg.html
+
+If you require further assistance please contact us by sending email to
+export@cisco.com.
+
+cisco WS-C2960-24TT-L (PowerPC405) processor (revision B0) with 65536K bytes of memory.
+Processor board ID FOC1010X104
+Last reset from power-on
+1 Virtual Ethernet interface
+24 FastEthernet interfaces
+2 Gigabit Ethernet interfaces
+The password-recovery mechanism is enabled.
+
+64K bytes of flash-simulated non-volatile configuration memory.
+Base ethernet MAC Address       : 00:17:59:A7:51:80
+Motherboard assembly number     : 73-10390-03
+Power supply part number        : 341-0097-02
+Motherboard serial number       : FOC10093R12
+Power supply serial number      : AZS1007032H
+Model revision number           : B0
+Motherboard revision number     : B0
+Model number                    : WS-C2960-24TT-L
+System serial number            : FOC1010X104
+Top Assembly Part Number        : 800-27221-02
+Top Assembly Revision Number    : A0
+Version ID                      : V02
+CLEI Code Number                : COM3L00BRA
+Hardware Board Revision Number  : 0x01
+
+
+Switch Ports Model              SW Version            SW Image
+------ ----- -----              ----------            ----------
+*    1 26    WS-C2960-24TT-L    15.0(2)SE4            C2960-LANBASEK9-M
+
+
+Configuration register is 0xF
+```
+
+   **Под управлением какой версии ОС Cisco IOS работает коммутатор?
+
+```Cisco IOS Software, C2960 Software (C2960-LANBASEK9-M), Version 15.0(2)SE4, RELEASE SOFTWARE (fc1)```
+
+   **Как называется файл образа системы?
+
+```System image file is "flash:c2960-lanbasek9-mz.150-2.SE4.bin"```
+
+   **Какой базовый MAC-адрес назначен коммутатору?
+
+```Base ethernet MAC Address       : 00:17:59:A7:51:80```
 
 
 
