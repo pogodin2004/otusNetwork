@@ -321,7 +321,7 @@ Vlan1 is administratively down, line protocol is down
 
    b. Убедитесь, что оба компьютера имеют правильную информацию адреса IPv6. Каждый компьютер должен иметь два глобальных адреса IPv6: один статический и один SLACC
 
-![](https://github.com/pogodin2004/otusNetwork/blob/main/dz04/images/pc-a_ipv6_result.png)
+![](https://github.com/pogodin2004/otusNetwork/blob/main/dz04/images/pc-a_ipv6_result_1.png)
 
-![](https://github.com/pogodin2004/otusNetwork/blob/main/dz04/images/pc-b_ipv6_result.png)
+![](https://github.com/pogodin2004/otusNetwork/blob/main/dz04/images/pc-b_ipv6_result_1.png)
 
