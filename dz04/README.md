@@ -124,8 +124,51 @@ R1(config-if)#ipv6 address 2001:db8:acad:1::1/64
 R1(config-if)#no shutdown 
 ```
 
+   b. Введите команду **show ipv6 interface brief**, чтобы проверить, назначен ли каждому интерфейсу корректный индивидуальный IPv6-адрес.
 
+```
+R1#show ipv6 int br
+GigabitEthernet0/0/0       [up/up]
+    FE80::206:2AFF:FE22:D301
+    2001:DB8:ACAD:A::1
+GigabitEthernet0/0/1       [up/up]
+    FE80::206:2AFF:FE22:D302
+    2001:DB8:ACAD:1::1
+GigabitEthernet0/0/2       [administratively down/down]
+    unassigned
+Vlan1                      [administratively down/down]
+    unassigned
+```
 
+   **Примечание.** Отображаемый локальный адрес канала основан на адресации EUI-64, которая автоматически использует MAC-адрес интерфейса для создания 128-битного локального IPv6-адреса канала.
+
+   c. Чтобы обеспечить соответствие локальных адресов канала индивидуальному адресу, вручную введите локальные адреса канала на каждом интерфейсе Ethernet на R1.
+
+```
+R1(config)#int gi0/0/0
+R1(config-if)#ipv6 address  fe80::1 link-local 
+R1(config-if)#exit
+R1(config)#int gi0/0/1
+R1(config-if)#ipv6 ad fe80::1 link-local 
+```
+
+   **Примечание.** Каждый интерфейс маршрутизатора относится к отдельной сети. Пакеты с локальным адресом канала никогда не выходят за пределы локальной сети, а значит, для обоих интерфейсов можно указывать один и тот же локальный адрес канала.
+
+   d. Используйте выбранную команду, чтобы убедиться, что локальный адрес связи изменен на fe80::1.  
+
+```
+R1#show ipv6 int br
+GigabitEthernet0/0/0       [up/up]
+    FE80::1
+    2001:DB8:ACAD:A::1
+GigabitEthernet0/0/1       [up/up]
+    FE80::1
+    2001:DB8:ACAD:1::1
+GigabitEthernet0/0/2       [administratively down/down]
+    unassigned
+Vlan1                      [administratively down/down]
+    unassigned
+```
 ###############################################################################################
 
 ### *Шаг 2. Настройте узлы ПК.
