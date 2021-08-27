@@ -76,9 +76,55 @@ S1# reload
 
     После подключения сети, инициализации и перезагрузки маршрутизатора и коммутатора выполните следующие действия:
 
-### *Шаг 1. Настройте маршрутизатор
+### Шаг 1. Настройте маршрутизатор
 
     Назначьте имя хоста и настройте основные параметры устройства.
+
+```
+Router>enable 
+Router#configure terminal
+Router(config)#hostname R1
+R1(config)#service password-encryption 
+R1(config)#enable secret class
+R1(config)#end
+R1#write memory 
+R1#
+```
+
+### Шаг 2. Шаг 2. Настройте коммутатор.
+
+    Назначьте имя хоста и настройте основные параметры устройства.
+
+```
+Switch>enable 
+Switch#configure terminal 
+Switch(config)#hostname S1
+S1(config)#service password-encryption 
+S1(config)#enable secret class
+S1(config)#end
+S1#write memory 
+S1#
+```
+
+## Часть 1. Часть 2. Ручная настройка IPv6-адресов
+
+### Шаг 1. Настройте маршрутизатор
+
+   Назначьте имя хоста и настройте основные параметры устройства.
+
+   a. Назначьте глобальные индивидуальные IPv6-адреса, указанные в таблице адресации обоим интерфейсам Ethernet на R1.
+
+```
+R1(config)#interface g0/0/0
+R1(config-if)#ipv6 address 2001:db8:acad:a::1/64
+R1(config-if)#no shutdown 
+
+R1(config)#int g0/0/1
+R1(config-if)#ipv6 address 2001:db8:acad:1::1/64
+R1(config-if)#no shutdown 
+```
+
+
 
 ###############################################################################################
 
