@@ -169,6 +169,31 @@ GigabitEthernet0/0/2       [administratively down/down]
 Vlan1                      [administratively down/down]
     unassigned
 ```
+
+   Какие группы многоадресной рассылки назначены интерфейсу G0/0?
+
+```
+R1#sh ipv6 int gi0/0/0
+GigabitEthernet0/0/0 is up, line protocol is up
+  IPv6 is enabled, link-local address is FE80::1
+  No Virtual link-local address(es):
+  Global unicast address(es):
+    2001:DB8:ACAD:A::1, subnet is 2001:DB8:ACAD:A::/64
+  Joined group address(es):
+    FF02::1
+    FF02::1:FF00:1
+  MTU is 1500 bytes
+  ICMP error messages limited to one every 100 milliseconds
+  ICMP redirects are enabled
+  ICMP unreachables are sent
+  ND DAD is enabled, number of DAD attempts: 1
+  ND reachable time is 30000 milliseconds
+
+  Интерфейсу Gigabit Ethernet 0/0/0 назначены две групповые рассылки FF02::1 - для всех узлов в локальной сети (канале) и FF02::1:FF00:1 - групповой адрес запрашиваемого узла для мультикаст-рассылки.
+
+```
+
+
 ###############################################################################################
 
 ### *Шаг 2. Настройте узлы ПК.
