@@ -194,4 +194,112 @@ GigabitEthernet0/0/0 is up, line protocol is up
    и FF02::1:FF00:1 - групповой адрес запрашиваемого узла для мультикаст-рассылки.
 ```
 
+### Шаг 2. Активируйте IPv6-маршрутизацию на R1.
 
+   a. В командной строке на PC-B введите команду **ipconfig**, чтобы получить данные IPv6-адреса, назначенного интерфейсу ПК
+
+```
+C:\>ipconfig /all
+
+FastEthernet0 Connection:(default port)
+
+   Connection-specific DNS Suffix..: 
+   Physical Address................: 00E0.8F04.378C
+   Link-local IPv6 Address.........: FE80::2E0:8FFF:FE04:378C
+   IPv6 Address....................: ::
+   IPv4 Address....................: 0.0.0.0
+   Subnet Mask.....................: 0.0.0.0
+   Default Gateway.................: ::
+                                     0.0.0.0
+   DHCP Servers....................: 0.0.0.0
+   DHCPv6 IAID.....................: 
+   DHCPv6 Client DUID..............: 00-01-00-01-CB-9A-C2-AD-00-E0-8F-04-37-8C
+   DNS Servers.....................: ::
+                                     0.0.0.0
+```
+
+   Назначен ли индивидуальный IPv6-адрес сетевой интерфейсной карте (NIC) на PC-B?
+
+```
+Нет, не назначен
+```
+
+   b. Активируйте IPv6-маршрутизацию на R1 с помощью команды **IPv6 unicast-routing.**
+
+   **Примечание.** Это позволит компьютерам получать IP-адреса и данные шлюза по умолчанию с помощью функции SLAAC (Stateless Address Autoconfiguration (Автоконфигурация без сохранения состояния адреса)).
+
+```
+R1(config)#ipv6 unicast-routing 
+
+R1#sh ipv6 int
+GigabitEthernet0/0/0 is up, line protocol is up
+  IPv6 is enabled, link-local address is FE80::1
+  No Virtual link-local address(es):
+  Global unicast address(es):
+    2001:DB8:ACAD:A::1, subnet is 2001:DB8:ACAD:A::/64
+  Joined group address(es):
+    FF02::1
+    FF02::2
+    FF02::1:FF00:1
+  MTU is 1500 bytes
+  ICMP error messages limited to one every 100 milliseconds
+  ICMP redirects are enabled
+  ICMP unreachables are sent
+  ND DAD is enabled, number of DAD attempts: 1
+  ND reachable time is 30000 milliseconds
+  ND advertised reachable time is 0 (unspecified)
+  ND advertised retransmit interval is 0 (unspecified)
+  ND router advertisements are sent every 200 seconds
+  ND router advertisements live for 1800 seconds
+  ND advertised default router preference is Medium
+  Hosts use stateless autoconfig for addresses.
+GigabitEthernet0/0/1 is up, line protocol is up
+  IPv6 is enabled, link-local address is FE80::1
+  No Virtual link-local address(es):
+  Global unicast address(es):
+    2001:DB8:ACAD:1::1, subnet is 2001:DB8:ACAD:1::/64
+  Joined group address(es):
+    FF02::1
+    FF02::2
+    FF02::1:FF00:1
+  MTU is 1500 bytes
+  ICMP error messages limited to one every 100 milliseconds
+  ICMP redirects are enabled
+  ICMP unreachables are sent
+  ND DAD is enabled, number of DAD attempts: 1
+  ND reachable time is 30000 milliseconds
+  ND advertised reachable time is 0 (unspecified)
+  ND advertised retransmit interval is 0 (unspecified)
+  ND router advertisements are sent every 200 seconds
+  ND router advertisements live for 1800 seconds
+  ND advertised default router preference is Medium
+  Hosts use stateless autoconfig for addresses.
+```
+
+   c. Теперь, когда R1 входит в группу многоадресной рассылки всех маршрутизаторов, еще раз введите команду ipconfig на PC-B. Проверьте данные IPv6-адреса.
+
+```
+C:\>ipconfig /all
+
+FastEthernet0 Connection:(default port)
+
+   Connection-specific DNS Suffix..: 
+   Physical Address................: 00E0.8F04.378C
+   Link-local IPv6 Address.........: FE80::2E0:8FFF:FE04:378C
+   IPv6 Address....................: 2001:DB8:ACAD:A:2E0:8FFF:FE04:378C
+   IPv4 Address....................: 0.0.0.0
+   Subnet Mask.....................: 0.0.0.0
+   Default Gateway.................: FE80::1
+                                     0.0.0.0
+   DHCP Servers....................: 0.0.0.0
+   DHCPv6 IAID.....................: 
+   DHCPv6 Client DUID..............: 00-01-00-01-CB-9A-C2-AD-00-E0-8F-04-37-8C
+   DNS Servers.....................: ::
+                                     0.0.0.0
+```
+
+   Почему PC-B получил глобальный префикс маршрутизации и идентификатор подсети, которые вы настроили на R1?
+
+```
+РС-B получил свой IPv6 адрес по методу SLAAC - префикс получен от маршрутизатора R1, а идентификатор подсети сгенерирован самостоятельно.
+```
