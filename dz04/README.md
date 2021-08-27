@@ -216,6 +216,7 @@ FastEthernet0 Connection:(default port)
    DHCPv6 Client DUID..............: 00-01-00-01-CB-9A-C2-AD-00-E0-8F-04-37-8C
    DNS Servers.....................: ::
                                      0.0.0.0
+...
 ```
 
    Назначен ли индивидуальный IPv6-адрес сетевой интерфейсной карте (NIC) на PC-B?
@@ -242,17 +243,7 @@ GigabitEthernet0/0/0 is up, line protocol is up
     FF02::2
     FF02::1:FF00:1
   MTU is 1500 bytes
-  ICMP error messages limited to one every 100 milliseconds
-  ICMP redirects are enabled
-  ICMP unreachables are sent
-  ND DAD is enabled, number of DAD attempts: 1
-  ND reachable time is 30000 milliseconds
-  ND advertised reachable time is 0 (unspecified)
-  ND advertised retransmit interval is 0 (unspecified)
-  ND router advertisements are sent every 200 seconds
-  ND router advertisements live for 1800 seconds
-  ND advertised default router preference is Medium
-  Hosts use stateless autoconfig for addresses.
+  ...
 GigabitEthernet0/0/1 is up, line protocol is up
   IPv6 is enabled, link-local address is FE80::1
   No Virtual link-local address(es):
@@ -262,18 +253,7 @@ GigabitEthernet0/0/1 is up, line protocol is up
     FF02::1
     FF02::2
     FF02::1:FF00:1
-  MTU is 1500 bytes
-  ICMP error messages limited to one every 100 milliseconds
-  ICMP redirects are enabled
-  ICMP unreachables are sent
-  ND DAD is enabled, number of DAD attempts: 1
-  ND reachable time is 30000 milliseconds
-  ND advertised reachable time is 0 (unspecified)
-  ND advertised retransmit interval is 0 (unspecified)
-  ND router advertisements are sent every 200 seconds
-  ND router advertisements live for 1800 seconds
-  ND advertised default router preference is Medium
-  Hosts use stateless autoconfig for addresses.
+...
 ```
 
    c. Теперь, когда R1 входит в группу многоадресной рассылки всех маршрутизаторов, еще раз введите команду ipconfig на PC-B. Проверьте данные IPv6-адреса.
@@ -296,10 +276,45 @@ FastEthernet0 Connection:(default port)
    DHCPv6 Client DUID..............: 00-01-00-01-CB-9A-C2-AD-00-E0-8F-04-37-8C
    DNS Servers.....................: ::
                                      0.0.0.0
+...
 ```
 
    Почему PC-B получил глобальный префикс маршрутизации и идентификатор подсети, которые вы настроили на R1?
 
 ```
-РС-B получил свой IPv6 адрес по методу SLAAC - префикс получен от маршрутизатора R1, а идентификатор подсети сгенерирован самостоятельно.
+РС-B получил свой IPv6 адрес по методу SLAAC - префикс и идентификатор подсети получен от маршрутизатора R1, а идентификатор интерфейса сгенерирован самостоятельно.
 ```
+
+### Шаг 3. Назначьте IPv6-адреса интерфейсу управления (SVI) на S1.
+
+   a. Назначьте адрес IPv6 для S1. Также назначьте этому интерфейсу локальный адрес канала.
+
+```
+
+S1#conf t
+S1(config)#int vlan 1
+S1(config-if)#ipv6 address 2001:db8:acad:1::b/64
+S1(config-if)#ipv6 address fe80::1 link-local 
+S1(config-if)#end
+```
+
+   b. Проверьте правильность назначения IPv6-адресов интерфейсу управления с помощью команды show ipv6 interface vlan1.
+
+```
+S1#show ipv6 int
+Vlan1 is administratively down, line protocol is down
+  IPv6 is tentative, link-local address is FE80::1 [TEN]
+  No Virtual link-local address(es):
+  Global unicast address(es):
+    2001:DB8:ACAD:1::B, subnet is 2001:DB8:ACAD:1::/64 [TEN]
+  Joined group address(es):
+    FF02::1
+```
+
+### Шаг 4. Назначьте компьютерам статические IPv6-адреса.
+
+   a. Откройте окно Свойства Ethernet для каждого ПК и назначьте адресацию IPv6.
+
+![](https://github.com/pogodin2004/otusNetwork/blob/main/dz04/images/pc-a_ipv6.png)
+
+![](https://github.com/pogodin2004/otusNetwork/blob/main/dz04/images/pc-b_ipv6.png)
