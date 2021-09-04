@@ -195,11 +195,13 @@ R1(config-line)#
 
 ### Шаг 5. Сохраните текущую конфигурацию в файл загрузочной конфигурации.
 
+```
 R1#copy running-config startup-config 
 Destination filename [startup-config]? 
 Building configuration...
 [OK]
 R1#
+```
 
 ### Шаг 6. Установите соединение с маршрутизатором по протоколу SSH.
 
