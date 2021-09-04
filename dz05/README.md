@@ -42,7 +42,7 @@
 
    В части 1 потребуется настроить топологию сети и основные параметры, такие как IP-адреса интерфейсов, доступ к устройствам и пароли на маршрутизаторе.
 
-### Шаг 1. Шаг 1. Создайте сеть согласно топологии.
+### Шаг 1. Создайте сеть согласно топологии.
 
 ![](https://github.com/pogodin2004/otusNetwork/blob/main/dz05/images/my_topology.png)
 
@@ -118,7 +118,7 @@ SW1#
 
    j. Сохраните текущую конфигурацию в файл загрузочной конфигурации.
 
-![](https://github.com/pogodin2004/otusNetwork/blob/main/dz05/images/console_access.png)
+![](https://github.com/pogodin2004/otusNetwork/blob/main/dz05/images/coslole_access.png)
 
 ### Шаг 4. Настройте компьютер PC-A.
 
