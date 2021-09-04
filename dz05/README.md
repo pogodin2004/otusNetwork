@@ -130,7 +130,7 @@ SW1#
 
    Пошлите с PC-A команду Ping на маршрутизатор R1. Если эхо-запрос с помощью команды ping не проходит, найдите и устраните неполадки подключения.
 
-![](https://github.com/pogodin2004/otusNetwork/blob/main/dz05/images/pc_ping _gateway.png)
+![](https://github.com/pogodin2004/otusNetwork/blob/main/dz05/images/pc_ping_gateway.png)
 
 ## Часть 2. Настройка маршрутизатора для доступа по протоколу SSH
 
