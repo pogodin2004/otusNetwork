@@ -661,96 +661,163 @@ Appliance trust: none
 
 ```
 
-********************************************************************************
-### Шаг 2. Настройте коммутатор для соединения по протоколу SSH.
+### Шаг 2. Вручную настройте магистральный интерфейс F0/5 на коммутаторе S1.
 
-   Для настройки протокола SSH на коммутаторе используйте те же команды, которые применялись для аналогичной настройки маршрутизатора в части 2.
-
-   a. Настройте имя устройства, как указано в таблице адресации.
-
-   b. Задайте домен для устройства.
-
-   c. Создайте ключ шифрования с указанием его длины.
-
-   d. Создайте имя пользователя в локальной базе учетных записей.
-
-   e. Активируйте протоколы Telnet и SSH на линиях VTY.
-
-   f. Измените способ входа в систему таким образом, чтобы использовалась проверка пользователей по локальной базе учетных записей.
-
-![](https://github.com/pogodin2004/otusNetwork/blob/main/dz05/images/sw_ssh.png)
-
-### Шаг 3. Установите соединение с коммутатором по протоколу SSH.
-
-   Запустите программу Tera Term на PC-A, затем установите подключение по протоколу SSH к интерфейсу SVI коммутатора S1.
-
-   Вопрос:
-   Удалось ли вам установить SSH-соединение с коммутатором?
+   a. Настройте интерфейс S1 F0/5 с теми же параметрами транка, что и F0/1. Это транк до маршрутизатора.
 
 ```
-Да
+S1#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+S1(config)#int fa 0/5
+S1(config-if)#sw tru nat vl 1000
+S1(config-if)#sw tr all vl 10,20,30,1000
+S1(config-if)#^Z
+S1#
+%SYS-5-CONFIG_I: Configured from console by console
 ```
 
-## Часть 4. Настройка протокола SSH с использованием интерфейса командной строки (CLI) коммутатора
-
-   Клиент SSH встроен в операционную систему Cisco IOS и может запускаться из интерфейса командной строки. В части 4 вам предстоит установить соединение с маршрутизатором по протоколу SSH, используя интерфейс командной строки коммутатора.
-
-### Шаг 1. Посмотрите доступные параметры для клиента SSH в Cisco IOS.
-
-Используйте вопросительный знак (?), чтобы отобразить варианты параметров для команды ssh.
+   b. Сохраните текущую конфигурацию в файл загрузочной конфигурации.
 
 ```
-S1#ssh ?
-  -l  Log in using this user name
-  -v  Specify SSH Protocol Version
-S1#ssh 
+S1#copy running-config startup-config 
+Destination filename [startup-config]? y
+Building configuration...
+[OK]
+S1#
 ```
 
-### Шаг 2. Установите с коммутатора S1 соединение с маршрутизатором R1 по протоколу SSH.
-
-   a. Чтобы подключиться к маршрутизатору R1 по протоколу SSH, введите команду –l admin. Это позволит вам войти в систему под именем **admin.** При появлении приглашения введите в качестве пароля **Adm1nP@55**
+   c. Проверка транкинга.
 
 ```
-S1#ssh -l admin 192.168.1.1
+S1#sh int tru
+Port        Mode         Encapsulation  Status        Native vlan
+Fa0/1       on           802.1q         trunking      1000
 
-Password: 
+Port        Vlans allowed on trunk
+Fa0/1       10,20,30,1000
 
-unauthorized access prohibited
+Port        Vlans allowed and active in management domain
+Fa0/1       10,20,30,1000
 
-R1>
-```
-
-   b. Чтобы вернуться к коммутатору S1, не закрывая сеанс SSH с маршрутизатором R1, нажмите комбинацию клавиш Ctrl+Shift+6. Отпустите клавиши Ctrl+Shift+6 и нажмите x. Отображается приглашение привилегированного режима EXEC коммутатора.
-
-![](https://github.com/pogodin2004/otusNetwork/blob/main/dz05/images/manipulations.png)
-
-   c. Чтобы вернуться к сеансу SSH на R1, нажмите клавишу Enter в пустой строке интерфейса командной строки. Чтобы увидеть окно командной строки маршрутизатора, нажмите клавишу Enter еще раз.
-
-![](https://github.com/pogodin2004/otusNetwork/blob/main/dz05/images/manipulations1.png)
-
-   d. Чтобы завершить сеанс SSH на маршрутизаторе R1, введите в командной строке маршрутизатора команду exit.
-
-![](https://github.com/pogodin2004/otusNetwork/blob/main/dz05/images/manipulations2.png)
-
-
-   Какие версии протокола SSH поддерживаются при использовании интерфейса командной строки?
+Port        Vlans in spanning tree forwarding state and not pruned
+Fa0/1       10,20,30,1000
 
 ```
-S1#sh ip ssh
-SSH Enabled - version 1.99
-Authentication timeout: 120 secs; Authentication retries: 3
-```
 
-## Вопрос для повторения
-
-   Как предоставить доступ к сетевому устройству нескольким пользователям, у каждого из которых есть собственное имя пользователя?
+   **Вопрос:** Что произойдет, если G0/0/1 на R1 будет отключен?
 
 ```
-   Если пользователи уже созданы, то подключение осущесталяется от его имени
-   ssh -l <user> <ip-address>.
-   Если пользователь не создан, то вводим команду
-   username <username> secret <password>
-   потом в line vty ... вводим login local
-   и подключение осуществляем от имени выбранного пользователя.
+Интерфейс fa 0/5 на S1 будет в состоянии down. Шлюз по умолчанию для всех устройств будет также недоступен.
 ```
+
+## Часть 4. Настройка маршрутизации между сетями VLAN
+
+### Шаг 1. Настройте маршрутизатор.
+
+   a. При необходимости активируйте интерфейс G0/0/1 на маршрутизаторе.
+
+```
+R1#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+R1(config)#int gi 0/1
+R1(config-if)#no shut
+
+R1(config-if)#
+%LINK-5-CHANGED: Interface GigabitEthernet0/1, changed state to up
+
+%LINEPROTO-5-UPDOWN: Line protocol on Interface GigabitEthernet0/1, changed state to up
+```
+
+   b. Настройте подинтерфейсы для каждой VLAN, как указано в таблице IP-адресации. Все подинтерфейсы используют инкапсуляцию 802.1Q. Убедитесь, что подинтерфейсу для native VLAN не назначен IP-адрес. Включите описание для каждого подинтерфейса.
+
+```
+R1(config)#int gi 0/1.10
+R1(config-subif)#
+%LINK-5-CHANGED: Interface GigabitEthernet0/1.10, changed state to up
+
+%LINEPROTO-5-UPDOWN: Line protocol on Interface GigabitEthernet0/1.10, changed state to up
+
+R1(config-subif)#des Management
+R1(config-subif)#enc dot 10
+R1(config-subif)#ip addr 192.168.10.1 255.255.255.0
+R1(config-subif)#exit
+R1(config)#int gi 0/1.20
+R1(config-subif)#
+%LINK-5-CHANGED: Interface GigabitEthernet0/1.20, changed state to up
+
+%LINEPROTO-5-UPDOWN: Line protocol on Interface GigabitEthernet0/1.20, changed state to up
+
+R1(config-subif)#des Sales
+R1(config-subif)#enc dot 20
+R1(config-subif)#ip addr 192.168.20.1 255.255.255.0
+R1(config-subif)#exit
+R1(config)#int gi 0/1.30
+R1(config-subif)#
+%LINK-5-CHANGED: Interface GigabitEthernet0/1.30, changed state to up
+
+%LINEPROTO-5-UPDOWN: Line protocol on Interface GigabitEthernet0/1.30, changed state to up
+
+R1(config-subif)#des Operations
+R1(config-subif)#enc dot 30
+R1(config-subif)#ip addr 192.168.30.1 255.255.255.0
+R1(config-subif)#exit
+R1(config)#int gi 0/1.1000
+R1(config-subif)#
+%LINK-5-CHANGED: Interface GigabitEthernet0/1.1000, changed state to up
+
+%LINEPROTO-5-UPDOWN: Line protocol on Interface GigabitEthernet0/1.1000, changed state to up
+
+R1(config-subif)#des new_native
+R1(config-subif)#enc dot 1000
+R1(config-subif)#exit
+```
+
+   c. Убедитесь, что вспомогательные интерфейсы работают
+
+```
+R1#sh ip int br
+Interface              IP-Address      OK? Method Status                Protocol 
+GigabitEthernet0/0     unassigned      YES unset  administratively down down 
+GigabitEthernet0/1     unassigned      YES unset  up                    up 
+GigabitEthernet0/1.10  192.168.10.1    YES manual up                    up 
+GigabitEthernet0/1.20  192.168.20.1    YES manual up                    up 
+GigabitEthernet0/1.30  192.168.30.1    YES manual up                    up 
+GigabitEthernet0/1.1000unassigned      YES unset  up                    up 
+GigabitEthernet0/2     unassigned      YES unset  administratively down down 
+Vlan1                  unassigned      YES unset  administratively down down
+R1#
+```
+
+## Часть 5. Проверьте, работает ли маршрутизация между VLAN
+
+### Шаг 1. Выполните следующие тесты с PC-A. Все должно быть успешно.
+
+   a. Отправьте эхо-запрос с PC-A на шлюз по умолчанию.
+
+![](https://github.com/pogodin2004/otusNetwork/blob/main/dz06/images/pc-a-gateway.png)
+
+   b. Отправьте эхо-запрос с PC-A на PC-B.
+
+![](https://github.com/pogodin2004/otusNetwork/blob/main/dz06/images/pc-a-pc-b.png)
+
+   c. Отправьте команду ping с компьютера PC-A на коммутатор S2.
+
+![](https://github.com/pogodin2004/otusNetwork/blob/main/dz06/images/pc-a-s-2.png)
+
+### Шаг 2. Пройдите следующий тест с PC-B
+
+   В окне командной строки на PC-B выполните команду tracert на адрес PC-A.
+
+![](https://github.com/pogodin2004/otusNetwork/blob/main/dz06/images/pc-b-tracert.png)
+
+   Вопрос: Какие промежуточные IP-адреса отображаются в результатах?
+
+```
+192.168.30.1 - адрес шлюза по умолчанию
+
+192.168.20.3 - адрес PC-A
+
+```
+
+
 
