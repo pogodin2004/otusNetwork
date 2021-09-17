@@ -22,8 +22,8 @@
 |      |             | S2: VLAN 10                   |
 | 20   | Sales       | S1: F0/6                      |
 | 30   | Operations  | S2: F0/18                     |
-| 999  | Parking_Lot | С1: F0/2-4, F0/7-24, G0/1-2   |
-| 999  | Parking_Lot | С2: F0/2-17, F0/19-24, G0/1-2 |
+| 999  | Parking_Lot | S1: F0/2-4, F0/7-24, G0/1-2   |
+|      |             | S2: F0/2-17, F0/19-24, G0/1-2 |
 
 
 
@@ -449,76 +449,219 @@ S2#
 
    a. Назначьте используемые порты соответствующей VLAN (указанной в таблице VLAN выше) и настройте их для режима статического доступа.
 
-   b. Убедитесь, что VLAN назначены на правильные интерфейсы.
-
-
-### Шаг 3. Создайте имя пользователя в локальной базе учетных записей.
-
 ```
-R1(config)#username admin password Adm1nP@55
-R1(config)#
-```
-### Шаг 4. Активируйте протокол SSH на линиях VTY.
-
-   a. Активируйте протоколы Telnet и SSH на входящих линиях VTY с помощью команды transport input.
-
-```
-R1(config-line)#transport input telnet
-R1(config-line)#transport input ssh
-```
-
-   b. Измените способ входа в систему таким образом, чтобы использовалась проверка пользователей по локальной базе учетных записей.
-
-```
-R1(config-line)#login local
-R1(config-line)#
-```
-
-### Шаг 5. Сохраните текущую конфигурацию в файл загрузочной конфигурации.
-
-```
-R1#copy running-config startup-config 
-Destination filename [startup-config]? 
+S1#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+S1(config)#int fa 0/6
+S1(config-if)#sw mod ac
+S1(config-if)#sw acc vl 20
+S1(config-if)#^Z
+S1#
+%SYS-5-CONFIG_I: Configured from console by console
+wr mem
 Building configuration...
 [OK]
-R1#
+S1#
 ```
 
-### Шаг 6. Установите соединение с маршрутизатором по протоколу SSH.
+```
+S2#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+S2(config)#int  fa 0/18
+S2(config-if)#sw mod acc
+S2(config-if)#sw acc vl 30
+S2(config-if)#^Z
+S2#
+%SYS-5-CONFIG_I: Configured from console by console
+wr mem
+Building configuration...
+[OK]
+S2#
+```
 
-   a. Запустите Tera Term с PC-A.
-   b. Установите SSH-подключение к R1. Use the username admin and password Adm1nP@55. У вас должно получиться установить SSH-подключение к R1.
+   b. Убедитесь, что VLAN назначены на правильные интерфейсы.
 
-![](https://github.com/pogodin2004/otusNetwork/blob/main/dz05/images/pc_ssh_to_R1.png)
+```
+S1#sh vl
 
-## Часть 3. Настройка коммутатора для доступа по протоколу SSH
+VLAN Name                             Status    Ports
+---- -------------------------------- --------- -------------------------------
+1    default                          active    Fa0/1, Fa0/5
+10   Management                       active    
+20   Sales                            active    Fa0/6
+30   Operations                       active    
+999  Parking_Lot                      active    Fa0/2, Fa0/3, Fa0/4, Fa0/7
+                                                Fa0/8, Fa0/9, Fa0/10, Fa0/11
+                                                Fa0/12, Fa0/13, Fa0/14, Fa0/15
+                                                Fa0/16, Fa0/17, Fa0/18, Fa0/19
+                                                Fa0/20, Fa0/21, Fa0/22, Fa0/23
+                                                Fa0/24, Gig0/1, Gig0/2
+1002 fddi-default                     active    
+1003 token-ring-default               active    
+1004 fddinet-default                  active    
+1005 trnet-default                    active    
+```
 
-   В части 3 вам предстоит настроить коммутатор для приема подключений по протоколу SSH, а затем установить SSH-подключение с помощью программы Tera Term.
+```
+[OK]
+S2#sh vl
 
-### Шаг 1. Настройте основные параметры коммутатора.
+VLAN Name                             Status    Ports
+---- -------------------------------- --------- -------------------------------
+1    default                          active    Fa0/1
+10   Management                       active    
+20   Sales                            active    
+30   Operations                       active    Fa0/18
+999  Parking_lot                      active    Fa0/2, Fa0/3, Fa0/4, Fa0/5
+                                                Fa0/6, Fa0/7, Fa0/8, Fa0/9
+                                                Fa0/10, Fa0/11, Fa0/12, Fa0/13
+                                                Fa0/14, Fa0/15, Fa0/16, Fa0/17
+                                                Fa0/19, Fa0/20, Fa0/21, Fa0/22
+                                                Fa0/23, Fa0/24, Gig0/1, Gig0/2
+1002 fddi-default                     active    
+1003 token-ring-default               active    
+1004 fddinet-default                  active    
+1005 trnet-default                    active    
+```
 
-   a. Подключитесь к коммутатору с помощью консольного подключения и активируйте привилегированный режим EXEC.
+*******************************************************************************************
 
-   b. Войдите в режим конфигурации.
+## Часть 3. Конфигурация магистрального канала стандарта 802.1Q между коммутаторами
 
-   c. Отключите поиск DNS, чтобы предотвратить попытки маршрутизатора неверно преобразовывать введенные команды таким образом, как будто они являются именами узлов.
+   В части 3 вы вручную настроите интерфейс F0/1 как транк.
 
-   d. Назначьте class в качестве зашифрованного пароля привилегированного режима EXEC.
+### Шаг 1. Вручную настройте магистральный интерфейс F0/1 на коммутаторах S1 и S2.
 
-   e. Назначьте cisco в качестве пароля консоли и включите вход в систему по паролю.
+   a. Настройка статического транкинга на интерфейсе F0/1 для обоих коммутаторов.
 
-   f. Назначьте cisco в качестве пароля VTY и включите вход в систему по паролю.
+```
+S1#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+S1(config)#int fa 0/1
+S1(config-if)#sw mo tr
 
-   g. Зашифруйте открытые пароли.
+S1(config-if)#
+%LINEPROTO-5-UPDOWN: Line protocol on Interface FastEthernet0/1, changed state to down
 
-   h. Создайте баннер, который предупреждает о запрете несанкционированного доступа.
+%LINEPROTO-5-UPDOWN: Line protocol on Interface FastEthernet0/1, changed state to up
 
-   i. Настройте и активируйте на коммутаторе интерфейс VLAN 1, используя информацию, приведенную в таблице адресации.
+%LINEPROTO-5-UPDOWN: Line protocol on Interface Vlan10, changed state to up
 
-   j. Сохраните текущую конфигурацию в файл загрузочной конфигурации.
+S1(config-if)#
+```
 
-![](https://github.com/pogodin2004/otusNetwork/blob/main/dz05/images/sw_access.png)
+```
+S2#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+S2(config)#int fa 0/1
+S2(config-if)#sw mode tr
 
+S2(config-if)#
+%LINEPROTO-5-UPDOWN: Line protocol on Interface FastEthernet0/1, changed state to down
+
+%LINEPROTO-5-UPDOWN: Line protocol on Interface FastEthernet0/1, changed state to up
+
+%LINEPROTO-5-UPDOWN: Line protocol on Interface Vlan10, changed state to up
+```
+
+   b. Установите native VLAN 1000 на обоих коммутаторах.
+
+```
+S1(config)#vlan 1000
+S1(config-vlan)#name new_native
+S1(config-if)#sw tr nat vl 1000
+S1(config-if)#^Z
+%CDP-4-NATIVE_VLAN_MISMATCH: Native VLAN mismatch discovered on FastEthernet0/1 (1000), with S2 FastEthernet0/1
+```
+
+```
+S2(config)#vlan 1000
+S2(config-vlan)#exit
+S2(config)#int fa 0/1
+S2(config-if)#sw trunk nat vlan 1000
+S2(config-if)#%SPANTREE-2-UNBLOCK_CONSIST_PORT: Unblocking FastEthernet0/1 on VLAN1000. Port consistency restored.
+
+%SPANTREE-2-UNBLOCK_CONSIST_PORT: Unblocking FastEthernet0/1 on VLAN0001. Port consistency restored.
+
+exit
+S2(config)#
+```
+   c. Укажите, что VLAN 10, 20, 30 и 1000 могут проходить по транку.
+
+```
+S1(config)#int fa 0/1
+S1(config-if)#sw tr all vl 10,20,30,1000
+S1(config-if)#
+```
+
+```
+S2(config)#int fa 0/1
+S2(config-if)#sw tru allowed vlan 10,20,30,100
+S2(config-if)#
+```
+
+   d. Проверьте транки, native VLAN и разрешенные VLAN через транк.
+
+```
+S1#sh int fa 0/1 sw
+Name: Fa0/1
+Switchport: Enabled
+Administrative Mode: trunk
+Operational Mode: trunk
+Administrative Trunking Encapsulation: dot1q
+Operational Trunking Encapsulation: dot1q
+Negotiation of Trunking: On
+Access Mode VLAN: 1 (default)
+Trunking Native Mode VLAN: 1000 (new_native)
+Voice VLAN: none
+Administrative private-vlan host-association: none
+Administrative private-vlan mapping: none
+Administrative private-vlan trunk native VLAN: none
+Administrative private-vlan trunk encapsulation: dot1q
+Administrative private-vlan trunk normal VLANs: none
+Administrative private-vlan trunk private VLANs: none
+Operational private-vlan: none
+Trunking VLANs Enabled: 10,20,30,1000
+Pruning VLANs Enabled: 2-1001
+Capture Mode Disabled
+Capture VLANs Allowed: ALL
+Protected: false
+Unknown unicast blocked: disabled
+Unknown multicast blocked: disabled
+Appliance trust: none
+```
+
+```
+S2#sh int fa 0/1 sw
+Name: Fa0/1
+Switchport: Enabled
+Administrative Mode: trunk
+Operational Mode: trunk
+Administrative Trunking Encapsulation: dot1q
+Operational Trunking Encapsulation: dot1q
+Negotiation of Trunking: Off
+Access Mode VLAN: 30 (Operations)
+Trunking Native Mode VLAN: 1000 (VLAN1000)
+Voice VLAN: none
+Administrative private-vlan host-association: none
+Administrative private-vlan mapping: none
+Administrative private-vlan trunk native VLAN: none
+Administrative private-vlan trunk encapsulation: dot1q
+Administrative private-vlan trunk normal VLANs: none
+Administrative private-vlan trunk private VLANs: none
+Operational private-vlan: none
+Trunking VLANs Enabled: 10,20,30,100
+Pruning VLANs Enabled: 2-1001
+Capture Mode Disabled
+Capture VLANs Allowed: ALL
+Protected: false
+Unknown unicast blocked: disabled
+Unknown multicast blocked: disabled
+Appliance trust: none
+
+```
+
+********************************************************************************
 ### Шаг 2. Настройте коммутатор для соединения по протоколу SSH.
 
    Для настройки протокола SSH на коммутаторе используйте те же команды, которые применялись для аналогичной настройки маршрутизатора в части 2.
