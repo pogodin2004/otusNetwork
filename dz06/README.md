@@ -768,7 +768,7 @@ R1(config-subif)#
 %LINEPROTO-5-UPDOWN: Line protocol on Interface GigabitEthernet0/1.1000, changed state to up
 
 R1(config-subif)#des new_native
-R1(config-subif)#enc dot 1000
+R1(config-subif)#enc dot 1000 native
 R1(config-subif)#exit
 ```
 ![](https://github.com/pogodin2004/otusNetwork/blob/main/dz06/images/r1_native_vlan.png)
