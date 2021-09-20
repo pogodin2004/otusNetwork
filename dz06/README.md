@@ -596,7 +596,7 @@ S1(config-if)#
 
 ```
 S2(config)#int fa 0/1
-S2(config-if)#sw tru allowed vlan 10,20,30,100
+S2(config-if)#sw tru allowed vlan 10,20,30,1000
 S2(config-if)#
 ```
 
@@ -771,6 +771,8 @@ R1(config-subif)#des new_native
 R1(config-subif)#enc dot 1000
 R1(config-subif)#exit
 ```
+![](https://github.com/pogodin2004/otusNetwork/blob/main/dz06/images/r1_native_vlan.png)
+
 
    c. Убедитесь, что вспомогательные интерфейсы работают
 
