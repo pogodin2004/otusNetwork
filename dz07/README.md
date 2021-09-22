@@ -183,303 +183,74 @@ S2 имеет самый низкий MAC-адрес.
 Так как S3 имеет MAC-адрес выше, чем S2.
 ```
 
-********************************************************************************************
+## Часть 3: Наблюдение за процессом выбора протоколом STP порта, исходя из стоимости портов
+
+   Алгоритм протокола spanning-tree (STA) использует корневой мост как точку привязки, после чего определяет, какие порты будут заблокированы, исходя из стоимости пути. Порт с более низкой стоимостью пути является предпочтительным. Если стоимости портов равны, процесс сравнивает BID. Если BID равны, для определения корневого моста используются приоритеты портов. Наиболее низкие значения являются предпочтительными. В части 3 вам предстоит изменить стоимость порта, чтобы определить, какой порт будет заблокирован протоколом spanning-tree
+
+### Шаг 1: Определите коммутатор с заблокированным портом.
+
+![](https://github.com/pogodin2004/otusNetwork/blob/main/dz07/images/s3_blocked_port.png)
 
 
-## Часть 3. Конфигурация магистрального канала стандарта 802.1Q между коммутаторами
+?????????????????????????????????????????????????????????????????????????????????????????????????????????????????
+### Шаг 2: Измените стоимость порта.
 
-   В части 3 вы вручную настроите интерфейс F0/1 как транк.
+   Помимо заблокированного порта, единственным активным портом на этом коммутаторе является порт, выделенный в качестве порта корневого моста. Уменьшите стоимость этого порта корневого моста до 18, выполнив команду spanning-tree cost 18 режима конфигурации интерфейса.
 
-### Шаг 1. Вручную настройте магистральный интерфейс F0/1 на коммутаторах S1 и S2.
+### Шаг 3: Просмотрите изменения протокола spanning-tree.
 
-   a. Настройка статического транкинга на интерфейсе F0/1 для обоих коммутаторов.
+   Повторно выполните команду show spanning-tree на обоих коммутаторах некорневого моста. 
+   
+### Шаг 4: Удалите изменения стоимости порта.
 
-```
-S1#conf t
-Enter configuration commands, one per line.  End with CNTL/Z.
-S1(config)#int fa 0/1
-S1(config-if)#sw mo tr
+??????????????????????????????????????????????????????????????????????????????????????????????????????????????
 
-S1(config-if)#
-%LINEPROTO-5-UPDOWN: Line protocol on Interface FastEthernet0/1, changed state to down
+## Часть 4: Наблюдение за процессом выбора протоколом STP порта, исходя из приоритета портов
 
-%LINEPROTO-5-UPDOWN: Line protocol on Interface FastEthernet0/1, changed state to up
+   Если стоимости портов равны, процесс сравнивает BID. Если BID равны, для определения корневого моста используются приоритеты портов. Значение приоритета по умолчанию — 128. STP объединяет приоритет порта с номером порта, чтобы разорвать связи. Наиболее низкие значения являются предпочтительными. В части 4 вам предстоит активировать избыточные пути до каждого из коммутаторов, чтобы просмотреть, каким образом протокол STP выбирает порт с учетом приоритета портов.
 
-%LINEPROTO-5-UPDOWN: Line protocol on Interface Vlan10, changed state to up
+   a. Включите порты F0/1 и F0/3 на всех коммутаторах.
 
-S1(config-if)#
-```
+![](https://github.com/pogodin2004/otusNetwork/blob/main/dz07/images/s1_int_up2.png)
 
-```
-S2#conf t
-Enter configuration commands, one per line.  End with CNTL/Z.
-S2(config)#int fa 0/1
-S2(config-if)#sw mode tr
+![](https://github.com/pogodin2004/otusNetwork/blob/main/dz07/images/s2_int_up2.png)
 
-S2(config-if)#
-%LINEPROTO-5-UPDOWN: Line protocol on Interface FastEthernet0/1, changed state to down
+![](https://github.com/pogodin2004/otusNetwork/blob/main/dz07/images/s3_int_up2.png)
 
-%LINEPROTO-5-UPDOWN: Line protocol on Interface FastEthernet0/1, changed state to up
+   b. Подождите 30 секунд, чтобы протокол STP завершил процесс перевода порта, после чего выполните команду show spanning-tree на коммутаторах некорневого моста. 
 
-%LINEPROTO-5-UPDOWN: Line protocol on Interface Vlan10, changed state to up
-```
+![](https://github.com/pogodin2004/otusNetwork/blob/main/dz07/images/s1_spa2.png)
 
-   b. Установите native VLAN 1000 на обоих коммутаторах.
+![](https://github.com/pogodin2004/otusNetwork/blob/main/dz07/images/s3_spa2.png)
 
-```
-S1(config)#vlan 1000
-S1(config-vlan)#name new_native
-S1(config-if)#sw tr nat vl 1000
-S1(config-if)#^Z
-%CDP-4-NATIVE_VLAN_MISMATCH: Native VLAN mismatch discovered on FastEthernet0/1 (1000), with S2 FastEthernet0/1
-```
+   Какой порт выбран протоколом STP в качестве порта корневого моста на каждом коммутаторе некорневого моста? 
 
 ```
-S2(config)#vlan 1000
-S2(config-vlan)#exit
-S2(config)#int fa 0/1
-S2(config-if)#sw trunk nat vlan 1000
-S2(config-if)#%SPANTREE-2-UNBLOCK_CONSIST_PORT: Unblocking FastEthernet0/1 on VLAN1000. Port consistency restored.
-
-%SPANTREE-2-UNBLOCK_CONSIST_PORT: Unblocking FastEthernet0/1 on VLAN0001. Port consistency restored.
-
-exit
-S2(config)#
-```
-   c. Укажите, что VLAN 10, 20, 30 и 1000 могут проходить по транку.
-
-```
-S1(config)#int fa 0/1
-S1(config-if)#sw tr all vl 10,20,30,1000
-S1(config-if)#
+На S1 и S3 корневыми стали порты F0/1
 ```
 
-```
-S2(config)#int fa 0/1
-S2(config-if)#sw tru allowed vlan 10,20,30,1000
-S2(config-if)#
-```
-
-   d. Проверьте транки, native VLAN и разрешенные VLAN через транк.
+   Почему протокол STP выбрал эти порты в качестве портов корневого моста на этих коммутаторах?
 
 ```
-S1#sh int fa 0/1 sw
-Name: Fa0/1
-Switchport: Enabled
-Administrative Mode: trunk
-Operational Mode: trunk
-Administrative Trunking Encapsulation: dot1q
-Operational Trunking Encapsulation: dot1q
-Negotiation of Trunking: On
-Access Mode VLAN: 1 (default)
-Trunking Native Mode VLAN: 1000 (new_native)
-Voice VLAN: none
-Administrative private-vlan host-association: none
-Administrative private-vlan mapping: none
-Administrative private-vlan trunk native VLAN: none
-Administrative private-vlan trunk encapsulation: dot1q
-Administrative private-vlan trunk normal VLANs: none
-Administrative private-vlan trunk private VLANs: none
-Operational private-vlan: none
-Trunking VLANs Enabled: 10,20,30,1000
-Pruning VLANs Enabled: 2-1001
-Capture Mode Disabled
-Capture VLANs Allowed: ALL
-Protected: false
-Unknown unicast blocked: disabled
-Unknown multicast blocked: disabled
-Appliance trust: none
+Они имеют наименьший порядковый номер порта.
 ```
 
-```
-S2#sh int fa 0/1 sw
-Name: Fa0/1
-Switchport: Enabled
-Administrative Mode: trunk
-Operational Mode: trunk
-Administrative Trunking Encapsulation: dot1q
-Operational Trunking Encapsulation: dot1q
-Negotiation of Trunking: Off
-Access Mode VLAN: 30 (Operations)
-Trunking Native Mode VLAN: 1000 (VLAN1000)
-Voice VLAN: none
-Administrative private-vlan host-association: none
-Administrative private-vlan mapping: none
-Administrative private-vlan trunk native VLAN: none
-Administrative private-vlan trunk encapsulation: dot1q
-Administrative private-vlan trunk normal VLANs: none
-Administrative private-vlan trunk private VLANs: none
-Operational private-vlan: none
-Trunking VLANs Enabled: 10,20,30,100
-Pruning VLANs Enabled: 2-1001
-Capture Mode Disabled
-Capture VLANs Allowed: ALL
-Protected: false
-Unknown unicast blocked: disabled
-Unknown multicast blocked: disabled
-Appliance trust: none
+## Вопросы для повторения
+
+   1.Какое значение протокол STP использует первым после выбора корневого моста, чтобы определить выбор порта?
 
 ```
-
-### Шаг 2. Вручную настройте магистральный интерфейс F0/5 на коммутаторе S1.
-
-   a. Настройте интерфейс S1 F0/5 с теми же параметрами транка, что и F0/1. Это транк до маршрутизатора.
-
-```
-S1#conf t
-Enter configuration commands, one per line.  End with CNTL/Z.
-S1(config)#int fa 0/5
-S1(config-if)#sw tru nat vl 1000
-S1(config-if)#sw tr all vl 10,20,30,1000
-S1(config-if)#^Z
-S1#
-%SYS-5-CONFIG_I: Configured from console by console
+Стоимость пути
 ```
 
-   b. Сохраните текущую конфигурацию в файл загрузочной конфигурации.
+   2. Если первое значение на двух портах одинаково, какое следующее значение будет использовать протокол STP при выборе порта?
 
 ```
-S1#copy running-config startup-config 
-Destination filename [startup-config]? y
-Building configuration...
-[OK]
-S1#
+MAC-адрес коммутатора
 ```
 
-   c. Проверка транкинга.
+   3. Если оба значения на двух портах равны, каким будет следующее значение, которое использует протокол STP при выборе порта?
 
 ```
-S1#sh int tru
-Port        Mode         Encapsulation  Status        Native vlan
-Fa0/1       on           802.1q         trunking      1000
-
-Port        Vlans allowed on trunk
-Fa0/1       10,20,30,1000
-
-Port        Vlans allowed and active in management domain
-Fa0/1       10,20,30,1000
-
-Port        Vlans in spanning tree forwarding state and not pruned
-Fa0/1       10,20,30,1000
-
+Порядковый номер порта на коммутаторе
 ```
-
-   **Вопрос:** Что произойдет, если G0/0/1 на R1 будет отключен?
-
-```
-Интерфейс fa 0/5 на S1 будет в состоянии down. Шлюз по умолчанию для всех устройств будет также недоступен.
-```
-
-## Часть 4. Настройка маршрутизации между сетями VLAN
-
-### Шаг 1. Настройте маршрутизатор.
-
-   a. При необходимости активируйте интерфейс G0/0/1 на маршрутизаторе.
-
-```
-R1#conf t
-Enter configuration commands, one per line.  End with CNTL/Z.
-R1(config)#int gi 0/1
-R1(config-if)#no shut
-
-R1(config-if)#
-%LINK-5-CHANGED: Interface GigabitEthernet0/1, changed state to up
-
-%LINEPROTO-5-UPDOWN: Line protocol on Interface GigabitEthernet0/1, changed state to up
-```
-
-   b. Настройте подинтерфейсы для каждой VLAN, как указано в таблице IP-адресации. Все подинтерфейсы используют инкапсуляцию 802.1Q. Убедитесь, что подинтерфейсу для native VLAN не назначен IP-адрес. Включите описание для каждого подинтерфейса.
-
-```
-R1(config)#int gi 0/1.10
-R1(config-subif)#
-%LINK-5-CHANGED: Interface GigabitEthernet0/1.10, changed state to up
-
-%LINEPROTO-5-UPDOWN: Line protocol on Interface GigabitEthernet0/1.10, changed state to up
-
-R1(config-subif)#des Management
-R1(config-subif)#enc dot 10
-R1(config-subif)#ip addr 192.168.10.1 255.255.255.0
-R1(config-subif)#exit
-R1(config)#int gi 0/1.20
-R1(config-subif)#
-%LINK-5-CHANGED: Interface GigabitEthernet0/1.20, changed state to up
-
-%LINEPROTO-5-UPDOWN: Line protocol on Interface GigabitEthernet0/1.20, changed state to up
-
-R1(config-subif)#des Sales
-R1(config-subif)#enc dot 20
-R1(config-subif)#ip addr 192.168.20.1 255.255.255.0
-R1(config-subif)#exit
-R1(config)#int gi 0/1.30
-R1(config-subif)#
-%LINK-5-CHANGED: Interface GigabitEthernet0/1.30, changed state to up
-
-%LINEPROTO-5-UPDOWN: Line protocol on Interface GigabitEthernet0/1.30, changed state to up
-
-R1(config-subif)#des Operations
-R1(config-subif)#enc dot 30
-R1(config-subif)#ip addr 192.168.30.1 255.255.255.0
-R1(config-subif)#exit
-R1(config)#int gi 0/1.1000
-R1(config-subif)#
-%LINK-5-CHANGED: Interface GigabitEthernet0/1.1000, changed state to up
-
-%LINEPROTO-5-UPDOWN: Line protocol on Interface GigabitEthernet0/1.1000, changed state to up
-
-R1(config-subif)#des new_native
-R1(config-subif)#enc dot 1000 native
-R1(config-subif)#exit
-```
-![](https://github.com/pogodin2004/otusNetwork/blob/main/dz06/images/r1_native_vlan.png)
-
-
-   c. Убедитесь, что вспомогательные интерфейсы работают
-
-```
-R1#sh ip int br
-Interface              IP-Address      OK? Method Status                Protocol 
-GigabitEthernet0/0     unassigned      YES unset  administratively down down 
-GigabitEthernet0/1     unassigned      YES unset  up                    up 
-GigabitEthernet0/1.10  192.168.10.1    YES manual up                    up 
-GigabitEthernet0/1.20  192.168.20.1    YES manual up                    up 
-GigabitEthernet0/1.30  192.168.30.1    YES manual up                    up 
-GigabitEthernet0/1.1000unassigned      YES unset  up                    up 
-GigabitEthernet0/2     unassigned      YES unset  administratively down down 
-Vlan1                  unassigned      YES unset  administratively down down
-R1#
-```
-
-## Часть 5. Проверьте, работает ли маршрутизация между VLAN
-
-### Шаг 1. Выполните следующие тесты с PC-A. Все должно быть успешно.
-
-   a. Отправьте эхо-запрос с PC-A на шлюз по умолчанию.
-
-![](https://github.com/pogodin2004/otusNetwork/blob/main/dz06/images/pc-a-gateway.png)
-
-   b. Отправьте эхо-запрос с PC-A на PC-B.
-
-![](https://github.com/pogodin2004/otusNetwork/blob/main/dz06/images/pc-a-pc-b.png)
-
-   c. Отправьте команду ping с компьютера PC-A на коммутатор S2.
-
-![](https://github.com/pogodin2004/otusNetwork/blob/main/dz06/images/pc-a-s-2.png)
-
-### Шаг 2. Пройдите следующий тест с PC-B
-
-   В окне командной строки на PC-B выполните команду tracert на адрес PC-A.
-
-![](https://github.com/pogodin2004/otusNetwork/blob/main/dz06/images/pc-b-tracert.png)
-
-   Вопрос: Какие промежуточные IP-адреса отображаются в результатах?
-
-```
-192.168.30.1 - адрес шлюза по умолчанию
-
-192.168.20.3 - адрес PC-A
-
-```
-
-
-
