@@ -185,25 +185,47 @@ S2 имеет самый низкий MAC-адрес.
 
 ## Часть 3: Наблюдение за процессом выбора протоколом STP порта, исходя из стоимости портов
 
+**Используем ТЕРМИНАЛЬНУЮ ЛАБОРАТОРИЮ CISCO**
+
    Алгоритм протокола spanning-tree (STA) использует корневой мост как точку привязки, после чего определяет, какие порты будут заблокированы, исходя из стоимости пути. Порт с более низкой стоимостью пути является предпочтительным. Если стоимости портов равны, процесс сравнивает BID. Если BID равны, для определения корневого моста используются приоритеты портов. Наиболее низкие значения являются предпочтительными. В части 3 вам предстоит изменить стоимость порта, чтобы определить, какой порт будет заблокирован протоколом spanning-tree
 
 ### Шаг 1: Определите коммутатор с заблокированным портом.
 
-![](https://github.com/pogodin2004/otusNetwork/blob/main/dz07/images/s3_blocked_port.png)
+   Общая схема сети
 
 
-?????????????????????????????????????????????????????????????????????????????????????????????????????????????????
+![](https://github.com/pogodin2004/otusNetwork/blob/main/dz07/images/t_topology.png)
+
+   Просматриваем STP на коммутаторах
+
+![](https://github.com/pogodin2004/otusNetwork/blob/main/dz07/images/t_s1_spa.png)
+
+![](https://github.com/pogodin2004/otusNetwork/blob/main/dz07/images/t_s2_spa.png)
+
+![](https://github.com/pogodin2004/otusNetwork/blob/main/dz07/images/t_s3_spa.png)
+
+
+   Заблокирован порт на S1
+
 ### Шаг 2: Измените стоимость порта.
 
    Помимо заблокированного порта, единственным активным портом на этом коммутаторе является порт, выделенный в качестве порта корневого моста. Уменьшите стоимость этого порта корневого моста до 18, выполнив команду spanning-tree cost 18 режима конфигурации интерфейса.
 
+![](https://github.com/pogodin2004/otusNetwork/blob/main/dz07/images/t_s1_change_cost.png)
+
 ### Шаг 3: Просмотрите изменения протокола spanning-tree.
 
    Повторно выполните команду show spanning-tree на обоих коммутаторах некорневого моста. 
+
+![](https://github.com/pogodin2004/otusNetwork/blob/main/dz07/images/t_s1_after_change_cost.png)
+
+![](https://github.com/pogodin2004/otusNetwork/blob/main/dz07/images/t_s3_alt_port_after_change_cost_s1.png)
    
 ### Шаг 4: Удалите изменения стоимости порта.
 
-??????????????????????????????????????????????????????????????????????????????????????????????????????????????
+![](https://github.com/pogodin2004/otusNetwork/blob/main/dz07/images/t_s1_second_change_cost.png)
+
+![](https://github.com/pogodin2004/otusNetwork/blob/main/dz07/images/t_s1_alt_port_back.png)
 
 ## Часть 4: Наблюдение за процессом выбора протоколом STP порта, исходя из приоритета портов
 
