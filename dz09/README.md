@@ -11,16 +11,6 @@
 | PC-A       | NIC         | DHCP           | 255.255.255.0 |
 | PC-B       | NIC         | DHCP           | 255.255.255.0 |
 
-
-## Таблица VLAN
-| VLAN       | Имя         | Назначенный интерфейс      | 
-| ---------- |:-----------:|:--------------------------:|
-| 1          | нет         | S2 F0/18                   |
-| 100        | Клиенты     | S1 F0/6                    |
-| 200        | Управление  | S1 VLAN 200                |
-| 999        | Parking Lot | S1 F0/1-4, F0/7-24, G0/1-2 |
-| 1000       | Сщбственная | -                          |
-
 ## Цели
 ### Часть 1. Настройка основного сетевого устройства
 
@@ -136,10 +126,10 @@ R1# show ip interface brief
 
    d. Установите для шлюза по умолчанию для VLAN управления значение 192.168.10.1 на обоих коммутаторах.
 
-![](https://github.com/pogodin2004/otusNetwork/blob/main/dz07/images/s1_first_config.png)
+![](https://github.com/pogodin2004/otusNetwork/blob/main/dz09/images/s1_first_config.png)
 
 
-![](https://github.com/pogodin2004/otusNetwork/blob/main/dz07/images/s2_first_config.png)
+![](https://github.com/pogodin2004/otusNetwork/blob/main/dz09/images/s2_first_config.png)
 
 
 ## Часть 2. Настройка сетей VLAN на коммутаторах.
@@ -148,19 +138,19 @@ R1# show ip interface brief
 
 Добавьте VLAN 10 на S1 и S2 и назовите VLAN - Management.
 
-![](https://github.com/pogodin2004/otusNetwork/blob/main/dz07/images/s1_vlan_10.png)
+![](https://github.com/pogodin2004/otusNetwork/blob/main/dz09/images/s1_vlan_10.png)
 
 
-![](https://github.com/pogodin2004/otusNetwork/blob/main/dz07/images/s2_vlan_10.png)
+![](https://github.com/pogodin2004/otusNetwork/blob/main/dz09/images/s2_vlan_10.png)
    
 
 ### Шаг 2. Сконфигруриуйте SVI для VLAN 10.
 
    Настройте IP-адрес в соответствии с таблицей адресации для SVI для VLAN 10 на S1 и S2. Включите интерфейсы SVI и предоставьте описание для интерфейса.
 
-![](https://github.com/pogodin2004/otusNetwork/blob/main/dz07/images/s1_int_vlan_10.png)
+![](https://github.com/pogodin2004/otusNetwork/blob/main/dz09/images/s1_int_vlan_10.png)
 
-![](https://github.com/pogodin2004/otusNetwork/blob/main/dz07/images/s2_int_vlan_10.png)
+![](https://github.com/pogodin2004/otusNetwork/blob/main/dz09/images/s2_int_vlan_10.png)
 
 
 
