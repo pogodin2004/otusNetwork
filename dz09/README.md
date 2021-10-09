@@ -152,6 +152,27 @@ R1# show ip interface brief
 
 ![](https://github.com/pogodin2004/otusNetwork/blob/main/dz09/images/s2_int_vlan_10.png)
 
+### Шаг 3. Настройте VLAN 333 с именем Native на S1 и S2.
+
+![](https://github.com/pogodin2004/otusNetwork/blob/main/dz09/images/s1_vlan_333.png)
+
+![](https://github.com/pogodin2004/otusNetwork/blob/main/dz09/images/s2_vlan_333.png)
+
+### Шаг 4. Настройте VLAN 999 с именем ParkingLot на S1 и S2.
+
+![](https://github.com/pogodin2004/otusNetwork/blob/main/dz09/images/s1_vlan_999.png)
+
+![](https://github.com/pogodin2004/otusNetwork/blob/main/dz09/images/s2_vlan_999.png)
+
+## Часть 3. Настройки безопасности коммутатора.
+
+### Шаг 1. Релизация магистральных соединений 802.1Q.
+
+   a. Настройте все магистральные порты Fa0/1 на обоих коммутаторах для использования VLAN 333 в качестве native VLAN.
+
+   b. Убедитесь, что режим транкинга успешно настроен на всех коммутаторах.
+
+
 
 
 
