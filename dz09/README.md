@@ -212,4 +212,41 @@ R1# show ip interface brief
 
 ![](https://github.com/pogodin2004/otusNetwork/blob/main/dz09/images/s2_shut_2.png)
 
+   b. Убедитесь, что неиспользуемые порты отключены и связаны с VLAN 999
+
+![](https://github.com/pogodin2004/otusNetwork/blob/main/dz09/images/s1_int_status.png)
+
+![](https://github.com/pogodin2004/otusNetwork/blob/main/dz09/images/s2_int_status.png)
+
+### Шаг 4. Документирование и реализация функций безопасности порта.
+
+   Интерфейсы F0/6 на S1 и F0/18 на S2 настроены как порты доступа. На этом шаге вы также настроите безопасность портов на этих двух портах доступа.
+
+   a. На S1, введите команду show port-security interface f0/6  для отображения настроек по умолчанию безопасности порта для интерфейса F0/6. Запишите свои ответы ниже.
+
+```
+Защита портов: Disabled
+Максимальное количество записей MAC-адресов: 1
+Режим проверки на нарушение безопасности: Shutdown
+Aging Time: 0 mins
+Aging Type: Absolute
+Secure Static Address Aging: Disabled
+Sticky MAC Address: 0
+```
+   b. На S1 включите защиту порта на F0 / 6 со следующими настройками:
+
+   * Максимальное количество записей MAC-адресов: 3
+
+   * Режим безопасности: restrict
+
+   * Aging time: 60 мин.
+
+   * Aging type: неактивный
+
+![](https://github.com/pogodin2004/otusNetwork/blob/main/dz09/images/s1_fa0-6_port-sec.png)
+
+
+
+
+
 
