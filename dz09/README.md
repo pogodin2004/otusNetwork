@@ -170,9 +170,46 @@ R1# show ip interface brief
 
    a. Настройте все магистральные порты Fa0/1 на обоих коммутаторах для использования VLAN 333 в качестве native VLAN.
 
+![](https://github.com/pogodin2004/otusNetwork/blob/main/dz09/images/s1_fa0-1_trunk.png)
+
+![](https://github.com/pogodin2004/otusNetwork/blob/main/dz09/images/s2_fa0-1_trunk.png)
+
    b. Убедитесь, что режим транкинга успешно настроен на всех коммутаторах.
 
+![](https://github.com/pogodin2004/otusNetwork/blob/main/dz09/images/s1_sh_trunk.png)
 
+![](https://github.com/pogodin2004/otusNetwork/blob/main/dz09/images/s2_sh_trunk.png)
 
+   c. Отключить согласование DTP F0/1 на S1 и S2. 
+
+![](https://github.com/pogodin2004/otusNetwork/blob/main/dz09/images/s1_noneg.png)
+
+![](https://github.com/pogodin2004/otusNetwork/blob/main/dz09/images/s2_noneg.png)
+
+   d. Проверьте с помощью команды show interfaces
+
+![](https://github.com/pogodin2004/otusNetwork/blob/main/dz09/images/s1_sh_noneg.png)
+
+![](https://github.com/pogodin2004/otusNetwork/blob/main/dz09/images/s2_sh_noneg.png)
+
+### Шаг 2. Настройка портов доступа
+
+   a. На S1 настройте F0/5 и F0/6 в качестве портов доступа и свяжите их с VLAN 10.
+
+![](https://github.com/pogodin2004/otusNetwork/blob/main/dz09/images/s1_access_ports.png)
+
+   b. На S2 настройте порт доступа Fa0/18 и свяжите его с VLAN 10.
+
+![](https://github.com/pogodin2004/otusNetwork/blob/main/dz09/images/s2_access_port.png)
+
+### Шаг 3. Безопасность неиспользуемых портов коммутатора
+
+   a. На S1 и S2 переместите неиспользуемые порты из VLAN 1 в VLAN 999 и отключите неиспользуемые порты.
+
+![](https://github.com/pogodin2004/otusNetwork/blob/main/dz09/images/s1_shut.png)
+
+![](https://github.com/pogodin2004/otusNetwork/blob/main/dz09/images/s2_shut_1.png)
+
+![](https://github.com/pogodin2004/otusNetwork/blob/main/dz09/images/s2_shut_2.png)
 
 
