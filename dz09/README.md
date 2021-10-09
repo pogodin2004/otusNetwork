@@ -245,6 +245,8 @@ Sticky MAC Address: 0
 
 ![](https://github.com/pogodin2004/otusNetwork/blob/main/dz09/images/s1_fa0-6_port-sec.png)
 
+   c. Verify port security on S1 F0/6.
+
 
 
 
