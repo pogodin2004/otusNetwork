@@ -247,8 +247,212 @@ Sticky MAC Address: 0
 
    c. Verify port security on S1 F0/6.
 
+![](https://github.com/pogodin2004/otusNetwork/blob/main/dz09/images/s1_verify_port-sec.png)
 
+```
+В CPT port-security не отрабатывает полностью
+```
+![](https://github.com/pogodin2004/otusNetwork/blob/main/dz09/images/s1_verify_port-sec_2.png)
 
+   d. Включите безопасность порта для F0 / 18 на S2. Настройте каждый активный порт доступа таким образом, чтобы он автоматически добавлял адреса МАС, изученные на этом порту, в текущую конфигурацию.
 
+   e. Настройте следующие параметры безопасности порта на S2 F / 18:
+
+   * Максимальное количество записей MAC-адресов: 2
+   * Тип безопасности: Protect
+   * Aging time: 60 мин.
+
+![](https://github.com/pogodin2004/otusNetwork/blob/main/dz09/images/r2_fa0.18_port.png)
+
+   f. Проверка функции безопасности портов на S2 F0/18.
+
+![](https://github.com/pogodin2004/otusNetwork/blob/main/dz09/images/s2_port_sec.png)
+
+## Шаг 5. Реализовать безопасность DHCP snooping.
+
+   a. На S2 включите DHCP snooping и настройте DHCP snooping во VLAN 10.
+
+   b. Настройте магистральные порты на S2 как доверенные порты.
+
+   c. Ограничьте ненадежный порт Fa0/18 на S2 пятью DHCP-пакетами в секунду.
+
+   d. Проверка DHCP Snooping на S2.
+
+![](https://github.com/pogodin2004/otusNetwork/blob/main/dz09/images/s2_dhcp_snoop.png)
+
+   e. В командной строке на PC-B освободите, а затем обновите IP-адрес.
+
+![](https://github.com/pogodin2004/otusNetwork/blob/main/dz09/images/pc-b_dhcp.png)
+
+   f. Проверьте привязку отслеживания DHCP с помощью команды show ip dhcp snooping binding.
+
+![](https://github.com/pogodin2004/otusNetwork/blob/main/dz09/images/s2_dhcp_bind.png)
+
+### Шаг 6. Реализация PortFast и BPDU Guard
+
+   a. Настройте PortFast на всех портах доступа, которые используются на обоих коммутаторах.
+
+   b. Включите защиту BPDU на портах доступа VLAN 10 S1 и S2, подключенных к PC-A и PC-B.
+
+![](https://github.com/pogodin2004/otusNetwork/blob/main/dz09/images/s1_port_span.png)
+![](https://github.com/pogodin2004/otusNetwork/blob/main/dz09/images/s2_port_span.png)
+
+   c. Убедитесь, что защита BPDU и PortFast включены на соответствующих портах.
+
+![](https://github.com/pogodin2004/otusNetwork/blob/main/dz09/images/s1_span_detail.png)
+![](https://github.com/pogodin2004/otusNetwork/blob/main/dz09/images/s2_span_detail.png)
+
+### Шаг 7. Проверьте наличие сквозного ⁪подключения.
+
+   Проверьте PING свзяь между всеми устройствами в таблице IP-адресации. В случае сбоя проверки связи может потребоваться отключить брандмауэр на хостах.
+   **PC-A**
+```
+Packet Tracer PC Command Line 1.0
+C:\>ping 192.168.10.1
+
+Pinging 192.168.10.1 with 32 bytes of data:
+
+Reply from 192.168.10.1: bytes=32 time<1ms TTL=255
+Reply from 192.168.10.1: bytes=32 time<1ms TTL=255
+Reply from 192.168.10.1: bytes=32 time<1ms TTL=255
+Reply from 192.168.10.1: bytes=32 time<1ms TTL=255
+
+Ping statistics for 192.168.10.1:
+    Packets: Sent = 4, Received = 4, Lost = 0 (0% loss),
+Approximate round trip times in milli-seconds:
+    Minimum = 0ms, Maximum = 0ms, Average = 0ms
+
+C:\>ping 10.10.1.1
+
+Pinging 10.10.1.1 with 32 bytes of data:
+
+Reply from 10.10.1.1: bytes=32 time<1ms TTL=255
+Reply from 10.10.1.1: bytes=32 time<1ms TTL=255
+Reply from 10.10.1.1: bytes=32 time<1ms TTL=255
+Reply from 10.10.1.1: bytes=32 time=1ms TTL=255
+
+Ping statistics for 10.10.1.1:
+    Packets: Sent = 4, Received = 4, Lost = 0 (0% loss),
+Approximate round trip times in milli-seconds:
+    Minimum = 0ms, Maximum = 1ms, Average = 0ms
+
+C:\>ping 192.168.10.201
+
+Pinging 192.168.10.201 with 32 bytes of data:
+
+Request timed out.
+Reply from 192.168.10.201: bytes=32 time<1ms TTL=255
+Reply from 192.168.10.201: bytes=32 time=4ms TTL=255
+Reply from 192.168.10.201: bytes=32 time<1ms TTL=255
+
+Ping statistics for 192.168.10.201:
+    Packets: Sent = 4, Received = 3, Lost = 1 (25% loss),
+Approximate round trip times in milli-seconds:
+    Minimum = 0ms, Maximum = 4ms, Average = 1ms
+
+C:\>ping 192.168.10.202
+
+Pinging 192.168.10.202 with 32 bytes of data:
+
+Request timed out.
+Reply from 192.168.10.202: bytes=32 time<1ms TTL=255
+Reply from 192.168.10.202: bytes=32 time<1ms TTL=255
+Reply from 192.168.10.202: bytes=32 time<1ms TTL=255
+
+Ping statistics for 192.168.10.202:
+    Packets: Sent = 4, Received = 3, Lost = 1 (25% loss),
+Approximate round trip times in milli-seconds:
+    Minimum = 0ms, Maximum = 0ms, Average = 0ms
+
+C:\>ping 192.168.10.10
+
+Pinging 192.168.10.10 with 32 bytes of data:
+
+Reply from 192.168.10.10: bytes=32 time<1ms TTL=128
+Reply from 192.168.10.10: bytes=32 time<1ms TTL=128
+Reply from 192.168.10.10: bytes=32 time<1ms TTL=128
+Reply from 192.168.10.10: bytes=32 time<1ms TTL=128
+
+Ping statistics for 192.168.10.10:
+    Packets: Sent = 4, Received = 4, Lost = 0 (0% loss),
+Approximate round trip times in milli-seconds:
+    Minimum = 0ms, Maximum = 0ms, Average = 0ms
+
+C:\>
+```
+   **PC-B**
+```
+C:\>ping 192.168.10.1
+
+Pinging 192.168.10.1 with 32 bytes of data:
+
+Reply from 192.168.10.1: bytes=32 time<1ms TTL=255
+Reply from 192.168.10.1: bytes=32 time<1ms TTL=255
+Reply from 192.168.10.1: bytes=32 time=14ms TTL=255
+Reply from 192.168.10.1: bytes=32 time<1ms TTL=255
+
+Ping statistics for 192.168.10.1:
+    Packets: Sent = 4, Received = 4, Lost = 0 (0% loss),
+Approximate round trip times in milli-seconds:
+    Minimum = 0ms, Maximum = 14ms, Average = 3ms
+
+C:\>ping 10.10.1.1
+
+Pinging 10.10.1.1 with 32 bytes of data:
+
+Reply from 10.10.1.1: bytes=32 time<1ms TTL=255
+Reply from 10.10.1.1: bytes=32 time<1ms TTL=255
+Reply from 10.10.1.1: bytes=32 time<1ms TTL=255
+Reply from 10.10.1.1: bytes=32 time<1ms TTL=255
+
+Ping statistics for 10.10.1.1:
+    Packets: Sent = 4, Received = 4, Lost = 0 (0% loss),
+Approximate round trip times in milli-seconds:
+    Minimum = 0ms, Maximum = 0ms, Average = 0ms
+
+C:\>ping 192.168.10.201
+
+Pinging 192.168.10.201 with 32 bytes of data:
+
+Request timed out.
+Reply from 192.168.10.201: bytes=32 time<1ms TTL=255
+Reply from 192.168.10.201: bytes=32 time<1ms TTL=255
+Reply from 192.168.10.201: bytes=32 time<1ms TTL=255
+
+Ping statistics for 192.168.10.201:
+    Packets: Sent = 4, Received = 3, Lost = 1 (25% loss),
+Approximate round trip times in milli-seconds:
+    Minimum = 0ms, Maximum = 0ms, Average = 0ms
+
+C:\>ping 192.168.10.202
+
+Pinging 192.168.10.202 with 32 bytes of data:
+
+Request timed out.
+Reply from 192.168.10.202: bytes=32 time<1ms TTL=255
+Reply from 192.168.10.202: bytes=32 time<1ms TTL=255
+Reply from 192.168.10.202: bytes=32 time<1ms TTL=255
+
+Ping statistics for 192.168.10.202:
+    Packets: Sent = 4, Received = 3, Lost = 1 (25% loss),
+Approximate round trip times in milli-seconds:
+    Minimum = 0ms, Maximum = 0ms, Average = 0ms
+
+C:\>ping 192.168.10.11
+
+Pinging 192.168.10.11 with 32 bytes of data:
+
+Reply from 192.168.10.11: bytes=32 time<1ms TTL=128
+Reply from 192.168.10.11: bytes=32 time<1ms TTL=128
+Reply from 192.168.10.11: bytes=32 time<1ms TTL=128
+Reply from 192.168.10.11: bytes=32 time<1ms TTL=128
+
+Ping statistics for 192.168.10.11:
+    Packets: Sent = 4, Received = 4, Lost = 0 (0% loss),
+Approximate round trip times in milli-seconds:
+    Minimum = 0ms, Maximum = 0ms, Average = 0ms
+
+C:\>
+```
 
 
