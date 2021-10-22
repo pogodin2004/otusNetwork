@@ -131,7 +131,7 @@
 
    a. На R1 настройте приоритет OSPF интерфейса G0/0/1 на 50, чтобы убедиться, что R1 является назначенным маршрутизатором.
 
-![](https://github.com/pogodin2004/otusNetwork/blob/main/dz10/images/r1_g1_cjange_cost.png)
+![](https://github.com/pogodin2004/otusNetwork/blob/main/dz10/images/r1_g1_change_cost.png)
 ![](https://github.com/pogodin2004/otusNetwork/blob/main/dz10/images/r1_dr.png)
 
    b. Настройте таймеры OSPF на G0/0/1 каждого маршрутизатора для таймера приветствия, составляющего 30 секунд.
