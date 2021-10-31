@@ -161,14 +161,14 @@
 
    c. Используйте команду show interfaces trunk для проверки настроек транка.
 
-![](https://github.com/pogodin2004/otusNetwork/blob/main/dz11/images/s1_f0-1_trunk.png)
+![](https://github.com/pogodin2004/otusNetwork/blob/main/dz11/images/s1_f0-5_trunk.png)
 
 ```
 Так как интерфейс на R1 - shutdown, то мы не видим настройки интерфейса f0/5.
 Включим интерфейс g0/0/1 на R1.
 ```
 
-![](https://github.com/pogodin2004/otusNetwork/blob/main/dz11/images/s1_f0-1_trunk_edit.png)
+![](https://github.com/pogodin2004/otusNetwork/blob/main/dz11/images/s1_f0-5_trunk_edit.png)
 
 ## Часть 4. Настройте маршрутизацию.
 
