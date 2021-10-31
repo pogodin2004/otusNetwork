@@ -252,10 +252,12 @@ R1(config)# ip http authentication local
 |PC-B | SSH      | 10.20.0.1   | Success   |
 |PC-B | SSH      | 172.16.1.1  | Success   |
 
-
 ![](https://github.com/pogodin2004/otusNetwork/blob/main/dz11/images/pc-a_ping.png)
+
 ![](https://github.com/pogodin2004/otusNetwork/blob/main/dz11/images/pc-b_ping.png)
+
 ![](https://github.com/pogodin2004/otusNetwork/blob/main/dz11/images/pc-b_ssh.png)
+
 
 ## Часть 7. Настройка и проверка списков контроля доступа (ACL)
 
