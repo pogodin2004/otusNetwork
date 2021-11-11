@@ -312,6 +312,6 @@ show ip nat translations verbose - в CPT не работает, но видно
 
    c. На R1 отобразите таблицу NAT на R1 с помощью команды **show ip nat translations,** и вы увидите статическое сопоставление и преобразование на уровне порта для входящих pings.
 
-![](https://github.com/pogodin2004/otusNetwork/blob/main/dz12/images/r1_nat_tras_fin.png)
+![](https://github.com/pogodin2004/otusNetwork/blob/main/dz12/images/r1_nat_trans_fin.png)
 
    Это подтверждает, что статический NAT работает.
