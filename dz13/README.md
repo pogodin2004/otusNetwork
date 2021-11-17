@@ -172,7 +172,7 @@ Cisco IOS Software, C2960 Software (C2960-LANBASEK9-M), Version 15.0(2)SE4
 
    Что такое chassis ID  для коммутатора S2?
 
-``
+```
 MAC-адрес
 ```
 
